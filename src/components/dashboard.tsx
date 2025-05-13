@@ -345,9 +345,9 @@ function Card({ title, value, color, icon = <LucideBarChart size={32} />, linkUr
   }[color] || 'text-blue-600';
 
   return (
-    <div className="bg-gray-100 shadow rounded-xl p-2">
-      <div className="flex justify-between items-center">
-        <div className="text-left mb-2">
+    <div className="bg-gray-100 shadow rounded-xl p-2 h-full flex flex-col justify-between">
+      <div className="flex justify-between items-center h-full">
+        <div className="text-left">
           <h2 className={`text-sm ${textColor}`}>{title}</h2>
           <p className="text-sm font-bold">{value}</p>
         </div>
