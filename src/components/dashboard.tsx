@@ -148,6 +148,7 @@ export default function Dashboard() {
             </PieChart>
           </ResponsiveContainer>
         </div>
+
         {/* Centered Progress Bar */}
         <div className="flex flex-col items-center justify-center space-y-2">
           <div className="w-full bg-gray-200 rounded-full h-6 flex overflow-hidden">
@@ -159,6 +160,7 @@ export default function Dashboard() {
             <span>সময় অতিক্রান্ত: ২৫%</span>
           </div>
         </div>
+        
         {/* Pie Chart: Pass/Fail */}
         <div className="h-64 flex items-center justify-center ">
           <ResponsiveContainer width="100%" height="100%">
