@@ -1,0 +1,365 @@
+'use client';
+
+import { Download, FileSpreadsheetIcon, FileStack, FileTextIcon, Layers, LucideArrowRight, LucideBarChart, LucideClock, LucideClock1 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import html2canvas from 'html2canvas';
+import {
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
+  PieChart, Pie, Cell, Legend,
+  Line,
+  LineChart
+} from 'recharts';
+import { Button } from './ui/button';
+
+const yearlyData = [
+  { year: '২০১৫-১৬', timely: 40, delayed: 30 },
+  { year: '২০১৬-১৭', timely: 20, delayed: 50 },
+  { year: '২০১৭-১৮', timely: 80, delayed: 90 },
+  { year: '২০১৮-১৯', timely: 140, delayed: 80 },
+  { year: '২০১৯-২০', timely: 70, delayed: 20 },
+  { year: '২০২০-২১', timely: 200, delayed: 100 },
+  { year: '২০২১-২২', timely: 180, delayed: 80 },
+];
+
+const statusData = [
+  { name: 'যথাসময়ে', value: 75 },
+  { name: 'সময় অতিক্রান্ত', value: 25 },
+];
+
+const passData = [
+  { name: 'মঞ্জুর', value: 35 },
+  { name: 'নামঞ্জুর', value: 65 },
+];
+
+const COLORS = ['#10B981', '#EF4444'];
+
+export default function Dashboard() {
+
+  const lineChartRef = useRef<HTMLDivElement>(null);
+  const [activeTab, setActiveTab] = useState('top');
+
+  useEffect(() => {
+    if (lineChartRef.current) {
+      const elements = lineChartRef.current.querySelectorAll('*');
+      elements.forEach((el) => {
+        const style = window.getComputedStyle(el);
+        if (style.color.includes('oklch')) {
+          (el as HTMLElement).style.color = '#000000';
+        }
+      });
+    }
+  }, []);
+
+  const handleDownloadLineChart = async () => {
+
+    if (lineChartRef.current) {
+      const canvas = await html2canvas(lineChartRef.current);
+      const link = document.createElement('a');
+      link.download = 'line-chart.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+
+  };
+
+  return (
+    <div className="p-6 min-h-screen space-y-6">
+      <div className="py-6">
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex gap-2">
+            <select className="border p-2 rounded">
+              <option>২০২৩-২৪</option>
+            </select>
+            <select className="border p-2 rounded">
+              <option>২০২৪-২৫</option>
+            </select>
+          </div>
+
+          <Button className="bg-green-500/10 text-green-600 border border-green-600 hover:bg-green-500/20"
+          >
+            ডাউনলোড ছবি <Download size={32} />
+          </Button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          <select className="border p-2 rounded w-full">
+            <option>মন্ত্রণালয় নির্বাচন করুন</option>
+          </select>
+          <select className="border p-2 rounded w-full">
+            <option>অফিস লেয়ার নির্বাচন করুন</option>
+          </select>
+          <select className="border p-2 rounded w-full">
+            <option>অফিস নির্বাচন করুন</option>
+          </select>
+
+          <select className="border p-2 rounded w-full">
+            <option>অনুবিভাগ নির্বাচন করুন</option>
+          </select>
+          <select className="border p-2 rounded w-full">
+            <option>শাখা নির্বাচন করুন</option>
+          </select>
+          <select className="border p-2 rounded w-full">
+            <option>সেবা নাম নির্বাচন করুন</option>
+          </select>
+
+        </div>
+      </div>
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-6">
+        <Card title="মোট সেবা" value="৫২০" color="green" icon={<Layers size={32} />} linkUrl="/test" />
+        <Card title="মোট আবেদন" value="৫২০" color="blue" icon={<FileStack size={32} />} linkUrl="/test" />
+        <Card title="সেবা প্রদানের নির্ধারিত সময়" value="৫" color="blue" icon={<LucideClock1 size={32} />} />
+        <Card title="সেবা প্রদানের গড় সময়" value="২" color="blue" icon={<LucideClock size={32} />} />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6">
+        <div className="text-center">
+          <h2 className="text-xl text-green-700">চলমান আবেদন</h2>
+          <p className="text-3xl font-extrabold">৫২০</p>
+          <hr className="mt-6" />
+        </div>
+        <div className="text-center">
+          <h2 className="text-xl text-green-700">নিষ্পত্তিকৃত আবেদন</h2>
+          <p className="text-3xl font-extrabold">২৮০</p>
+          <hr className="mt-6" />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center pt-6">
+
+        <div className="h-64 flex items-center justify-center">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={statusData}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                innerRadius={65}
+                outerRadius={80}
+                dataKey="value"
+                label
+              >
+                {statusData.map((entry, index) => (
+                  <Cell key={`cell-status-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Legend />
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+        {/* Centered Progress Bar */}
+        <div className="flex flex-col items-center justify-center space-y-2">
+          <div className="w-full bg-gray-200 rounded-full h-6 flex overflow-hidden">
+            <div className="bg-green-600 h-6" style={{ width: '75%' }}></div>
+            <div className="bg-red-500 h-6" style={{ width: '25%' }}></div>
+          </div>
+          <div className="flex justify-between w-full text-sm text-gray-600">
+            <span>যথাসময়ে: ৭৫%</span>
+            <span>সময় অতিক্রান্ত: ২৫%</span>
+          </div>
+        </div>
+        {/* Pie Chart: Pass/Fail */}
+        <div className="h-64 flex items-center justify-center ">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={passData}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                innerRadius={65}
+                outerRadius={80}
+                dataKey="value"
+                label
+              >
+                {passData.map((entry, index) => (
+                  <Cell key={`cell-pass-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Legend />
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+
+      </div>
+
+      {/* Bar Chart (Yearly Trends) */}
+      <div className="pt-6">
+        {/* <h3 className="text-xl font-semibold text-gray-700 mb-4">বার্ষিক আবেদন পরিসংখ্যান</h3> */}
+        <div className="h-72">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={yearlyData} barCategoryGap="20%">
+              <XAxis dataKey="year" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="timely" name="যথাসময়ে" fill="#10B981" />
+              <Bar dataKey="delayed" name="সময় অতিক্রান্ত" fill="#71a8e8" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      <div className="p-6 border shadow round">
+        <div className="flex justify-between items-center mb-4">
+          <div>
+            <h3 className="text-lg font-semibold text-gray-700 mb-4">মন্ত্রণালয়/বিভাগসমূহের আবেদন তালিকা</h3>
+          </div>
+
+          <div className="flex gap-2 mb-4">
+            <Button
+              onClick={() => setActiveTab('top')}
+              className={`${activeTab === 'top'
+                ? 'bg-blue-800 text-white hover:bg-blue-600'
+                : 'bg-transparent text-gray-700 hover:bg-gray-200'
+                }`}
+            >
+              শীর্ষ ১০ অনুসন্ধান
+            </Button>
+
+            <Button
+              onClick={() => setActiveTab('bottom')}
+              className={`${activeTab === 'bottom'
+                ? 'bg-blue-800 text-white hover:bg-blue-700'
+                : 'bg-transparent text-gray-700 hover:bg-gray-200'
+                }`}
+            >
+              নিম্ন ১০ অনুসন্ধান
+            </Button>
+
+            <Button
+              onClick={() => setActiveTab('all')}
+              className={`${activeTab === 'all'
+                ? 'bg-blue-800 text-white hover:bg-blue-700'
+                : 'bg-transparent text-gray-700 hover:bg-gray-200'
+                }`}
+            >
+              সব অনুসন্ধান
+            </Button>
+          </div>
+        </div>
+
+        <div className="flex justify-between items-center mb-4 bg-yellow-100">
+          <div>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="ghost"> <FileSpreadsheetIcon size={32} /> ডাউনলোড </Button>
+            <Button variant="ghost"> <FileTextIcon size={32} /> ডাউনলোড </Button>
+          </div>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto text-sm text-center border">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-4 py-2">ক্রমিক নং</th>
+                <th className="px-4 py-2">মন্ত্রণালয়</th>
+                <th className="px-4 py-2">মোট সেবা</th>
+                <th className="px-4 py-2">মোট আবেদন</th>
+                <th className="px-4 py-2">চলমান আবেদন</th>
+                <th className="px-4 py-2">নিষ্পন্ন</th>
+                <th className="px-4 py-2">সময়মত (%)</th>
+                <th className="px-4 py-2">সময় অতিক্রান্ত (%)</th>
+                <th className="px-4 py-2">নামঞ্জুর</th>
+                <th className="px-4 py-2">মঞ্জুর</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-t">
+                <td className="px-4 py-2">১</td>
+                <td className="px-4 py-2">স্বাস্থ্য মন্ত্রণালয়</td>
+                <td className="px-4 py-2">১০০</td>
+                <td className="px-4 py-2">১০,০০০</td>
+                <td className="px-4 py-2">২,০০০</td>
+                <td className="px-4 py-2">১,০০০</td>
+                <td className="px-4 py-2">৮৫%</td>
+                <td className="px-4 py-2">২৫%</td>
+                <td className="px-4 py-2">৮</td>
+                <td className="px-4 py-2">৫</td>
+              </tr>
+              <tr className="border-t">
+                <td className="px-4 py-2">২</td>
+                <td className="px-4 py-2">স্বাস্থ্য মন্ত্রণালয়</td>
+                <td className="px-4 py-2">১০০</td>
+                <td className="px-4 py-2">১০,০০০</td>
+                <td className="px-4 py-2">২,০০০</td>
+                <td className="px-4 py-2">১,০০০</td>
+                <td className="px-4 py-2">৮৫%</td>
+                <td className="px-4 py-2">২৫%</td>
+                <td className="px-4 py-2">৮</td>
+                <td className="px-4 py-2">৫</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="h-80 pt-6" >
+        <div className="flex justify-between items-center mb-4">
+          <select className="border p-2 rounded">
+            <option>মোট আবেদন</option>
+          </select>
+
+          <Button
+            onClick={handleDownloadLineChart}
+            className="bg-orange-500/10 text-orange-600 border border-orange-600 hover:bg-orange-500/20"
+          >
+            ডাউনলোড ছবি <Download size={32} />
+          </Button>
+        </div>
+        <ResponsiveContainer width="100%" height="100%" ref={lineChartRef} style={{
+          backgroundColor: '#ffffff',
+          color: '#000000',
+          padding: '1rem',
+          borderRadius: '0.5rem',
+        }}>
+          <LineChart data={yearlyData} >
+            <XAxis dataKey="year" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="timely" name="যথাসময়ে (Line)" stroke="#047857" strokeWidth={2} />
+            <Line type="monotone" dataKey="delayed" name="সময় অতিক্রান্ত (Line)" stroke="#DC2626" strokeWidth={2} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+}
+
+// Reusable Card Component
+type CardProps = {
+  title: string;
+  value: string;
+  color: 'blue' | 'green' | 'yellow';
+  icon: React.ReactNode;
+  linkUrl?: string;
+};
+
+function Card({ title, value, color, icon = <LucideBarChart size={32} />, linkUrl }: CardProps) {
+  const textColor = {
+    blue: 'text-blue-700',
+    green: 'text-green-600',
+    yellow: 'text-yellow-600',
+  }[color] || 'text-blue-600';
+
+  return (
+    <div className="bg-gray-100 shadow rounded-xl p-2">
+      <div className="flex justify-between items-center">
+        <div className="text-left mb-2">
+          <h2 className={`text-sm ${textColor}`}>{title}</h2>
+          <p className="text-sm font-bold">{value}</p>
+        </div>
+        <div className="text-gray-300">
+          {icon}
+        </div>
+      </div>
+
+      {linkUrl && (
+        <a href={linkUrl} className="text-xs text-gray-600 hover:text-gray-800 flex">বিস্তারিত দেখুন <LucideArrowRight size={16} /> </a>
+      )}
+
+    </div>
+  );
+}
