@@ -31,6 +31,34 @@ const passData = [
   { name: 'নামঞ্জুর', value: 65 },
 ];
 
+const ministryData = [
+  {
+    id: "১",
+    name: 'স্বাস্থ্য মন্ত্রণালয়',
+    totalServices: "১০০",
+    totalApplications: "১০,০০০",
+    ongoing: "২,০০০",
+    resolved: "১,০০০",
+    onTime: '৮৫%',
+    delayed: '২৫%',
+    rejected: "১০",
+    approved: "৫",
+  },
+  {
+    id: "২",
+    name: 'স্বাস্থ্য মন্ত্রণালয়',
+    totalServices: "১০০",
+    totalApplications: "১০,০০০",
+    ongoing: "২,০০০",
+    resolved: "১,০০০",
+    onTime: '৮৫%',
+    delayed: '২৫%',
+    rejected: "২",
+    approved: "৮",
+  },
+
+];
+
 const COLORS = ['#10B981', '#EF4444'];
 
 export default function Dashboard() {
@@ -160,7 +188,7 @@ export default function Dashboard() {
             <span>সময় অতিক্রান্ত: ২৫%</span>
           </div>
         </div>
-        
+
         {/* Pie Chart: Pass/Fail */}
         <div className="h-64 flex items-center justify-center ">
           <ResponsiveContainer width="100%" height="100%">
@@ -268,30 +296,20 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-t">
-                <td className="px-4 py-2">১</td>
-                <td className="px-4 py-2">স্বাস্থ্য মন্ত্রণালয়</td>
-                <td className="px-4 py-2">১০০</td>
-                <td className="px-4 py-2">১০,০০০</td>
-                <td className="px-4 py-2">২,০০০</td>
-                <td className="px-4 py-2">১,০০০</td>
-                <td className="px-4 py-2">৮৫%</td>
-                <td className="px-4 py-2">২৫%</td>
-                <td className="px-4 py-2">৮</td>
-                <td className="px-4 py-2">৫</td>
-              </tr>
-              <tr className="border-t">
-                <td className="px-4 py-2">২</td>
-                <td className="px-4 py-2">স্বাস্থ্য মন্ত্রণালয়</td>
-                <td className="px-4 py-2">১০০</td>
-                <td className="px-4 py-2">১০,০০০</td>
-                <td className="px-4 py-2">২,০০০</td>
-                <td className="px-4 py-2">১,০০০</td>
-                <td className="px-4 py-2">৮৫%</td>
-                <td className="px-4 py-2">২৫%</td>
-                <td className="px-4 py-2">৮</td>
-                <td className="px-4 py-2">৫</td>
-              </tr>
+              {ministryData.map((row, index) => (
+                <tr className="border-t" key={row.id}>
+                  <td className="py-2">{row.id}</td>
+                  <td className="py-2">{row.name}</td>
+                  <td className="py-2">{row.totalServices}</td>
+                  <td className="py-2">{row.totalApplications}</td>
+                  <td className="py-2">{row.ongoing}</td>
+                  <td className="py-2">{row.resolved}</td>
+                  <td className="py-2">{row.onTime}</td>
+                  <td className="py-2">{row.delayed}</td>
+                  <td className="py-2">{row.rejected}</td>
+                  <td className="py-2">{row.approved}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

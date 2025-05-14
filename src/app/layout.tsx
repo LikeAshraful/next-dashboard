@@ -6,9 +6,9 @@ import { TopBar } from "@/components/topbar";
 import { Noto_Sans_Bengali } from 'next/font/google';
 
 const banglaFont = Noto_Sans_Bengali({
-  subsets: ['bengali'], // ensures only Bangla characters are loaded
-  weight: ['400', '700'], // optional: normal and bold
-  display: 'swap', // improves loading performance
+  subsets: ['bengali'], 
+  weight: ['400', '700'],
+  display: 'swap',
   fallback: ['sans-serif'],
 });
 
