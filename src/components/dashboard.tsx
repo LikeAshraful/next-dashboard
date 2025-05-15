@@ -304,7 +304,6 @@ export default function Dashboard() {
 
       {/* Bar Chart (Yearly Trends) */}
       <div className="pt-6">
-        {/* <h3 className="text-xl font-semibold text-gray-700 mb-4">বার্ষিক আবেদন পরিসংখ্যান</h3> */}
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={yearlyData} barCategoryGap="20%">
@@ -367,12 +366,10 @@ export default function Dashboard() {
           <div></div>
           <div className="flex gap-2">
             <Button variant="ghost">
-              {" "}
-              <BiSolidFilePdf size={32} /> ডাউনলোড{" "}
+              <BiSolidFilePdf size={32} /> ডাউনলোড
             </Button>
             <Button variant="ghost">
-              {" "}
-              <RiFileExcel2Fill size={32} /> ডাউনলোড{" "}
+              <RiFileExcel2Fill size={32} /> ডাউনলোড
             </Button>
           </div>
         </div>
@@ -491,18 +488,17 @@ function Card({
         <div className="text-left">
           <h2 className={`text-sm ${textColor}`}>{title}</h2>
           <p className="text-sm font-bold">{value}</p>
+          {linkUrl && (
+            <a
+              href={linkUrl}
+              className="text-xs text-gray-600 hover:text-gray-800 flex"
+            >
+              বিস্তারিত দেখুন <LucideArrowRight size={16} />{" "}
+            </a>
+          )}
         </div>
-        <div className="text-gray-300">{icon}</div>
+        <div className="text-gray-400 p-2">{icon}</div>
       </div>
-
-      {linkUrl && (
-        <a
-          href={linkUrl}
-          className="text-xs text-gray-600 hover:text-gray-800 flex"
-        >
-          বিস্তারিত দেখুন <LucideArrowRight size={16} />{" "}
-        </a>
-      )}
     </div>
   );
 }
