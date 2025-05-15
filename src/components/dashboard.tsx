@@ -304,6 +304,13 @@ export default function Dashboard() {
 
       {/* Bar Chart (Yearly Trends) */}
       <div className="pt-6">
+        <div className="flex justify-between items-center mb-6">
+          <select className="border p-2 rounded">
+            <option>চলমান আবেদন</option>
+          </select>
+
+          <div> </div>
+        </div>
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={yearlyData} barCategoryGap="20%">
