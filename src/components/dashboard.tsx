@@ -188,7 +188,7 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-[1fr_0.7fr_1fr] gap-5 items-center pt-6">
         <div className="h-64 flex items-center justify-center">
-          <ResponsiveContainer width="60%" height="100%">
+          <ResponsiveContainer width="55%" height="100%">
             <PieChart>
               <Pie
                 data={statusData}
@@ -221,7 +221,7 @@ export default function Dashboard() {
                   {item.name}({item.value}%)
                 </span>
                 <span>
-                  <a href="#">
+                  <a href="#" target="_blank">
                     <RiExternalLinkLine />
                   </a>
                 </span>
@@ -244,11 +244,11 @@ export default function Dashboard() {
               ></div>
             ))}
           </div>
-          <div className="flex flex-wrap justify-center w-full text-sm text-gray-600">
+          <div className="flex flex-wrap justify-center w-full text-xs text-gray-600">
             {statusData.map((item, idx) => (
               <span key={item.name} className="mr-2 flex items-center">
                 <span
-                  className="inline-block w-3 h-3 rounded-full mr-1"
+                  className="inline-block w-3 h-3 rounded-full mr-1 text-xs"
                   style={{ backgroundColor: COLORS[idx % COLORS.length] }}
                 ></span>
                 {item.name}: {item.value}%
@@ -259,10 +259,10 @@ export default function Dashboard() {
 
         {/* Pie Chart: Pass/Fail */}
         <div className="h-64 flex items-center justify-center">
-          <ResponsiveContainer width="60%" height="100%">
+          <ResponsiveContainer width="55%" height="100%">
             <PieChart>
               <Pie
-                data={statusData}
+                data={passData}
                 cx="50%"
                 cy="50%"
                 labelLine={false}
@@ -271,7 +271,7 @@ export default function Dashboard() {
                 dataKey="value"
                 label
               >
-                {statusData.map((entry, index) => (
+                {passData.map((entry, index) => (
                   <Cell
                     key={`cell-status-${index}`}
                     fill={COLORS[index % COLORS.length]}
@@ -282,7 +282,7 @@ export default function Dashboard() {
             </PieChart>
           </ResponsiveContainer>
           <div className="flex flex-col ml-4">
-            {statusData.map((item, idx) => (
+            {passData.map((item, idx) => (
               <div key={item.name} className="flex items-center mb-2">
                 <span
                   className="inline-block w-4 h-4 rounded mr-2"
@@ -292,7 +292,7 @@ export default function Dashboard() {
                   {item.name}({item.value}%)
                 </span>
                 <span>
-                  <a href="#">
+                  <a href="#" target="_blank">
                     <RiExternalLinkLine />
                   </a>
                 </span>
