@@ -1,6 +1,6 @@
 'use client';
 
-import { Download, FileSpreadsheetIcon, FileStack, FileTextIcon, Layers, LucideArrowRight, LucideBarChart, LucideClock, LucideClock1 } from 'lucide-react';
+import { Download, FileStack, Layers, LucideArrowRight, LucideBarChart, LucideClock, LucideClock1 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 import {
@@ -10,6 +10,9 @@ import {
   LineChart
 } from 'recharts';
 import { Button } from './ui/button';
+import { BiSolidFilePdf } from "react-icons/bi";
+import { RiFileExcel2Fill } from "react-icons/ri";
+
 
 const yearlyData = [
   { year: '২০১৫-১৬', timely: 40, delayed: 30 },
@@ -269,14 +272,14 @@ export default function Dashboard() {
               সব অনুসন্ধান
             </Button>
           </div>
-        </div>
+        </div>       
 
-        <div className="flex justify-between items-center mb-4 bg-yellow-100">
+        <div className="flex justify-between items-center mb-4 bg-orange-500/10">
           <div>
           </div>
           <div className="flex gap-2">
-            <Button variant="ghost"> <FileSpreadsheetIcon size={32} /> ডাউনলোড </Button>
-            <Button variant="ghost"> <FileTextIcon size={32} /> ডাউনলোড </Button>
+            <Button variant="ghost"> <BiSolidFilePdf  size={32} /> ডাউনলোড </Button>
+            <Button variant="ghost"> <RiFileExcel2Fill size={32} /> ডাউনলোড </Button>
           </div>
         </div>
         <div className="overflow-x-auto">
@@ -320,10 +323,11 @@ export default function Dashboard() {
           <select className="border p-2 rounded">
             <option>মোট আবেদন</option>
           </select>
+          
 
           <Button
             onClick={handleDownloadLineChart}
-            className="bg-orange-500/10 text-orange-600 border border-orange-600 hover:bg-orange-500/20"
+            className="bg-orange-500/10 text-orange-600 border border-orange-600/10 hover:bg-orange-500/20"
           >
             ডাউনলোড ছবি <Download size={32} />
           </Button>
