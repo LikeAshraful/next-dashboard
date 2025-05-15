@@ -136,7 +136,7 @@ const TopBar = ({
   },
 }: TopBarProps) => {
   return (
-    <section className="py-4">
+    <section className="py-4 top-0 z-50 bg-background shadow-sm">
       <div className="container">
         {/* Desktop Menu */}
         <nav className="hidden justify-between lg:flex">
